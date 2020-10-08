@@ -1470,62 +1470,6 @@ void TestClamp( void ) {
 	PrintClocks( va( "   simd->ClampMax( float[] ) %s", result ), COUNT, bestClocksSIMD, bestClocksGeneric );
 }
 
-/*
-============
-TestMemcpy
-============
-*/
-void TestMemcpy( void ) {
-	int i, j;
-	byte test0[8192];
-	byte test1[8192];
-
-	idRandom random( RANDOM_SEED );
-
-	idLib::common->Printf("====================================\n" );
-
-	for ( i = 5; i < 8192; i += 31 ) {
-		for ( j = 0; j < i; j++ ) {
-			test0[j] = random.RandomInt( 255 );
-		}
-		p_simd->Memcpy( test1, test0, 8192 );
-		for ( j = 0; j < i; j++ ) {
-			if ( test1[j] != test0[j] ) {
-				idLib::common->Printf( "   simd->Memcpy() "S_COLOR_RED"X\n" );
-				return;
-			}
-		}
-	}
-	idLib::common->Printf( "   simd->Memcpy() ok\n" );
-}
-
-/*
-============
-TestMemset
-============
-*/
-void TestMemset( void ) {
-	int i, j, k;
-	byte test[8192];
-
-	for ( i = 0; i < 8192; i++ ) {
-		test[i] = 0;
-	}
-
-	for ( i = 5; i < 8192; i += 31 ) {
-		for ( j = -1; j <= 1; j++ ) {
-			p_simd->Memset( test, j, i );
-			for ( k = 0; k < i; k++ ) {
-				if ( test[k] != (byte)j ) {
-					idLib::common->Printf( "   simd->Memset() "S_COLOR_RED"X\n" );
-					return;
-				}
-			}
-		}
-	}
-	idLib::common->Printf( "   simd->Memset() ok\n" );
-}
-
 #define	MATX_SIMD_EPSILON			1e-5f
 
 /*
