@@ -65,18 +65,21 @@
     <IntDir>$(OutDir)</IntDir>
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>J:\Programming\College\Game Mod\gamemodq4\game;J:\Programming\College\Game Mod\gamemodq4\idlib;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugInline|Win32'">
     <OutDir>../$(Platform)/$(Configuration)\</OutDir>
     <IntDir>$(OutDir)</IntDir>
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>J:\Programming\College\Game Mod\gamemodq4\game;J:\Programming\College\Game Mod\gamemodq4\idlib;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>../$(Platform)/$(Configuration)\</OutDir>
     <IntDir>$(OutDir)</IntDir>
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>J:\Programming\College\Game Mod\gamemodq4\game;J:\Programming\College\Game Mod\gamemodq4\idlib;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -89,8 +92,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile />
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName)/$(ProjectName).pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>$(IntDir)$(ProjectName)/</AssemblerListingLocation>
       <ObjectFileName>$(IntDir)$(ProjectName)/</ObjectFileName>
@@ -130,8 +133,8 @@
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile />
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName)/$(ProjectName).pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>$(IntDir)$(ProjectName)/</AssemblerListingLocation>
       <ObjectFileName>$(IntDir)$(ProjectName)/</ObjectFileName>
@@ -177,8 +180,8 @@
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile />
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName)/$(ProjectName).pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>$(IntDir)$(ProjectName)/</AssemblerListingLocation>
       <ObjectFileName>$(IntDir)$(ProjectName)/</ObjectFileName>
@@ -264,6 +267,7 @@
     <ClCompile Include="game\ai\Monster_Turret.cpp" />
     <ClCompile Include="game\ai\Monster_TurretFlying.cpp" />
     <ClCompile Include="game\ai\VehicleAI.cpp" />
+    <ClCompile Include="game\ai\Zombie.cpp" />
     <ClCompile Include="game\anim\Anim.cpp" />
     <ClCompile Include="game\anim\Anim_Blend.cpp" />
     <ClCompile Include="game\anim\Anim_Import.cpp" />
@@ -374,6 +378,8 @@
     <ClCompile Include="game\weapon\WeaponRocketLauncher.cpp" />
     <ClCompile Include="game\weapon\WeaponShotgun.cpp" />
     <ClCompile Include="game\WorldSpawn.cpp" />
+    <ClCompile Include="Randomize.cpp" />
+    <ClCompile Include="WaveManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game\Actor.h" />
@@ -390,6 +396,7 @@
     <ClInclude Include="game\ai\AI_Tactical.h" />
     <ClInclude Include="game\ai\AI_Util.h" />
     <ClInclude Include="game\ai\VehicleAI.h" />
+    <ClInclude Include="game\ai\Zombie.h" />
     <ClInclude Include="game\anim\Anim.h" />
     <ClInclude Include="game\anim\Anim_Testmodel.h" />
     <ClInclude Include="game\BrittleFracture.h" />
@@ -480,6 +487,8 @@
     <ClInclude Include="game\vehicle\VehicleStatic.h" />
     <ClInclude Include="game\Weapon.h" />
     <ClInclude Include="game\WorldSpawn.h" />
+    <ClInclude Include="Randomize.h" />
+    <ClInclude Include="WaveManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="game\Game.def" />

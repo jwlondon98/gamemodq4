@@ -8,6 +8,7 @@
 #pragma hdrstop
 
 #include "../Game_local.h"
+#include "../../WaveManager.h";
 
 ABSTRACT_DECLARATION( idClass, rvClientEntity )
 END_CLASS
@@ -60,6 +61,9 @@ void rvClientEntity::Spawn( void ) {
 
 	origin = spawnArgs.GetVector( "origin", "0 0 0" );
 	axis = spawnArgs.GetMatrix( "axis", "1 0 0 0 1 0 0 0 1" );
+
+	// when the player spawns, create a wave manager and start it
+	WaveManager* waveManager = new WaveManager();
 
 	InitDefaultPhysics( origin, axis );
 
