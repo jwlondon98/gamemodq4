@@ -334,6 +334,7 @@ public:
 	int								fireRate;
 	int								altFireRate;
 	float							spread;
+	int								numProjectiles;
 	int								nextAttackTime;
 
 	// we maintain local copies of the projectile and brass dictionaries so they

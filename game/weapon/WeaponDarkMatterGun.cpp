@@ -314,7 +314,7 @@ stateResult_t rvWeaponDarkMatterGun::State_Fire ( const stateParms_t& parms ) {
 			StopRings ( );
 
 			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-			Attack ( false, 1, spread, 0, 1.0f );
+			Attack ( false, numProjectiles, spread, 0, 1.0f );
 			PlayAnim ( ANIMCHANNEL_ALL, "fire", 0 );	
 			return SRESULT_STAGE ( STAGE_WAIT );
 	
@@ -412,6 +412,7 @@ rvDarkMatterProjectile::rvDarkMatterProjectile
 */
 rvDarkMatterProjectile::rvDarkMatterProjectile ( void ) {
 	radiusDamageDef = NULL;
+	
 }
 
 /*

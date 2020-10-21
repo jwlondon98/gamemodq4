@@ -7,8 +7,8 @@
 #include "../Projectile.h"
 #include "../ai/AI_Manager.h"
 
-const int	LIGHTNINGGUN_NUM_TUBES	=	3;
-const int	LIGHTNINGGUN_MAX_PATHS  =	3;
+const int	LIGHTNINGGUN_NUM_TUBES	=	10;
+const int	LIGHTNINGGUN_MAX_PATHS  =	10;
 
 const idEventDef EV_Lightninggun_RestoreHum( "<lightninggunRestoreHum>", "" );
 
@@ -829,12 +829,14 @@ stateResult_t rvWeaponLightningGun::State_Fire( const stateParms_t& parms ) {
 			if ( worldModel && flashJointWorld != INVALID_JOINT ) {
   				worldModel->PlayEffect( gameLocal.GetEffect( weaponDef->dict,"fx_flash_world"), flashJointWorld, vec3_origin, mat3_identity, true );
   			}
+			 
+			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier(PMOD_FIRERATE));
 
 			PlayAnim( ANIMCHANNEL_ALL, "shoot_start", parms.blendFrames );
 			return SRESULT_STAGE( STAGE_ATTACKLOOP );
 		
 		case STAGE_ATTACKLOOP:
-			if ( !wsfl.attack || wsfl.lowerWeapon || !AmmoAvailable ( ) ) {
+			if ( !wsfl.attack || wsfl.lowerWeapon || !AmmoAvailable ( ) || gameLocal.time < nextAttackTime) {
 				return SRESULT_STAGE ( STAGE_DONE );
 			}
 			if ( AnimDone( ANIMCHANNEL_ALL, 0 ) ) {

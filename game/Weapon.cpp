@@ -629,6 +629,7 @@ void rvWeapon::Spawn ( void ) {
 		altFireRate = fireRate;
 	}
 	spread		= (gameLocal.IsMultiplayer()&&spawnArgs.FindKey("spread_mp"))?spawnArgs.GetFloat ( "spread_mp" ):spawnArgs.GetFloat ( "spread" );
+	numProjectiles = spawnArgs.GetInt("numProjectiles");
 	nextAttackTime = 0;
 
 	// Zoom
