@@ -516,6 +516,8 @@
     <ClCompile Include="game\mp\stats\StatWindow.cpp">
       <Filter>Game\MP\Stats</Filter>
     </ClCompile>
+    <ClCompile Include="game\ai\Monster_Zombie.cpp" />
+    <ClCompile Include="game\ZombieSpawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game\Actor.h">
@@ -830,6 +832,7 @@
     <ClInclude Include="game\mp\stats\StatWindow.h">
       <Filter>Game\MP\Stats</Filter>
     </ClInclude>
+    <ClInclude Include="game\ZombieSpawner.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="game\Game.def" />

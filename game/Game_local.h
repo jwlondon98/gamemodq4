@@ -281,10 +281,14 @@ class idEntityPtr {
 public:
 							idEntityPtr();
 
+
 	// save games
 	void					Save( idSaveGame *savefile ) const;					// archives object for save game file
 	void					Restore( idRestoreGame *savefile );					// unarchives object from save game file
 
+	// custom mod
+	bool					zombieSpawnerCreated;
+	
 	idEntityPtr<type> &		operator=( type *ent );
 
 	// synchronize entity pointers over the network

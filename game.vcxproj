@@ -266,6 +266,7 @@
     <ClCompile Include="game\ai\Monster_TeleportDropper.cpp" />
     <ClCompile Include="game\ai\Monster_Turret.cpp" />
     <ClCompile Include="game\ai\Monster_TurretFlying.cpp" />
+    <ClCompile Include="game\ai\Monster_Zombie.cpp" />
     <ClCompile Include="game\ai\VehicleAI.cpp" />
     <ClCompile Include="game\anim\Anim.cpp" />
     <ClCompile Include="game\anim\Anim_Blend.cpp" />
@@ -377,6 +378,7 @@
     <ClCompile Include="game\weapon\WeaponRocketLauncher.cpp" />
     <ClCompile Include="game\weapon\WeaponShotgun.cpp" />
     <ClCompile Include="game\WorldSpawn.cpp" />
+    <ClCompile Include="game\ZombieSpawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game\Actor.h" />
@@ -483,6 +485,7 @@
     <ClInclude Include="game\vehicle\VehicleStatic.h" />
     <ClInclude Include="game\Weapon.h" />
     <ClInclude Include="game\WorldSpawn.h" />
+    <ClInclude Include="game\ZombieSpawner.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="game\Game.def" />

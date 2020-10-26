@@ -836,7 +836,7 @@ stateResult_t rvWeaponLightningGun::State_Fire( const stateParms_t& parms ) {
 			return SRESULT_STAGE( STAGE_ATTACKLOOP );
 		
 		case STAGE_ATTACKLOOP:
-			if ( !wsfl.attack || wsfl.lowerWeapon || !AmmoAvailable ( ) || gameLocal.time < nextAttackTime) {
+			if ( !wsfl.attack || wsfl.lowerWeapon || !AmmoAvailable ( )) {
 				return SRESULT_STAGE ( STAGE_DONE );
 			}
 			if ( AnimDone( ANIMCHANNEL_ALL, 0 ) ) {
