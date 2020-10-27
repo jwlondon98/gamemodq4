@@ -6,6 +6,8 @@
 #ifndef __GAME_WEAPON_H__
 #define __GAME_WEAPON_H__
 
+#include "WaveManager.h"
+
 /*
 ===============================================================================
 

@@ -4835,8 +4835,11 @@ bool idGameLocal::SpawnEntityDef( const idDict &args, idEntity **ent, bool setDe
 	if ( !def ) {
 // RAVEN BEGIN
 // jscott: a NULL classname would crash Warning()
+		gameLocal.Printf("ENTITY DEF NOT FOUND - JL");
+
 		if( classname ) {
 			Warning( "Unknown classname '%s'%s.", classname, error.c_str() );
+			gameLocal.Printf("Unknown classname '%s'%s.", classname, error.c_str());
 		}
 // RAVEN END
 		return false;

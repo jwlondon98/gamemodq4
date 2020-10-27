@@ -2519,10 +2519,11 @@ void rvWeapon::Attack( bool altAttack, int num_attacks, float spread, float fuse
 	// if owner exists, print player view origin when shooting
 	if (owner != NULL)
 	{
-		gameLocal.Printf("player view origin: %f, %f, %f\n", 
+		// print position
+		/*gameLocal.Printf("player view origin: %f, %f, %f\n", 
 			owner->firstPersonViewOrigin.x, 
 			owner->firstPersonViewOrigin.y, 
-			owner->firstPersonViewOrigin.z);
+			owner->firstPersonViewOrigin.z);*/
 	}
 
 	// avoid all ammo considerations on an MP client

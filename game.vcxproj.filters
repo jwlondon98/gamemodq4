@@ -516,8 +516,8 @@
     <ClCompile Include="game\mp\stats\StatWindow.cpp">
       <Filter>Game\MP\Stats</Filter>
     </ClCompile>
-    <ClCompile Include="game\ai\Monster_Zombie.cpp" />
-    <ClCompile Include="game\ZombieSpawner.cpp" />
+    <ClCompile Include="game\WaveManager.cpp" />
+    <ClCompile Include="game\Randomize.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game\Actor.h">
@@ -832,7 +832,8 @@
     <ClInclude Include="game\mp\stats\StatWindow.h">
       <Filter>Game\MP\Stats</Filter>
     </ClInclude>
-    <ClInclude Include="game\ZombieSpawner.h" />
+    <ClInclude Include="game\WaveManager.h" />
+    <ClInclude Include="game\Randomize.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="game\Game.def" />

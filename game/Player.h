@@ -267,8 +267,11 @@ public:
 	int						secretAreasDiscovered;
 };
 
+class WaveManager;
+
 class idPlayer : public idActor {
 public:
+	WaveManager* waveManager;
 
  	enum {
  		EVENT_IMPULSE = idEntity::EVENT_MAXEVENTS,

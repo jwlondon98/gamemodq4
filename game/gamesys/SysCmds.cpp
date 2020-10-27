@@ -31,6 +31,13 @@
 #include "NoGameTypeInfo.h"
 #endif
 
+#include "../WaveManager.h"
+
+void Cmd_StartCustomMod(const idCmdArgs &args)
+{
+	gameLocal.GetLocalPlayer()->waveManager = new WaveManager();
+}
+
 /*
 ==================
 Cmd_GetFloatArg
@@ -3053,6 +3060,7 @@ void idGameLocal::InitConsoleCommands( void ) {
 //	cmdSystem->AddCommand( "writeGameState",		WriteGameState_f,			CMD_FL_GAME,				"write game state" );
 //	cmdSystem->AddCommand( "testSaveGame",			TestSaveGame_f,				CMD_FL_GAME|CMD_FL_CHEAT,	"test a save game for a level" );
 // RAVEN END
+	cmdSystem->AddCommand( "startmod",				Cmd_StartCustomMod,		CMD_FL_GAME|CMD_FL_CHEAT,	"starts zombie spawner for custom mod" );
 	cmdSystem->AddCommand( "game_memory",			idClass::DisplayInfo_f,		CMD_FL_GAME,				"displays game class info" );
 	cmdSystem->AddCommand( "listClasses",			idClass::ListClasses_f,		CMD_FL_GAME,				"lists game classes" );
 	cmdSystem->AddCommand( "listThreads",			idThread::ListThreads_f,	CMD_FL_GAME|CMD_FL_CHEAT,	"lists script threads" );

@@ -17,7 +17,6 @@
 #include "ai/AAS_tactical.h"
 #include "Healing_Station.h"
 #include "ai/AI_Medic.h"
-#include "../game/ZombieSpawner.h"
 
 // RAVEN BEGIN
 // nrausch: support for turning the weapon change ui on and off
@@ -2843,10 +2842,6 @@ void idPlayer::SpawnToPoint( const idVec3 &spawn_origin, const idAngles &spawn_a
 	if ( inventory.armor > inventory.maxarmor ) {
 		nextArmorPulse = gameLocal.time + ARMOR_PULSE;
 	}		
-
-	// spawn zombie spawner
-	ZombieSpawner* zombieSpawner = new ZombieSpawner();
-	zombieSpawner->SpawnZombie();
 
 	fl.noknockback = false;
 	// stop any ragdolls being used

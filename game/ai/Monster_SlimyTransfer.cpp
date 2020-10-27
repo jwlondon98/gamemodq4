@@ -3,6 +3,7 @@
 #pragma hdrstop
 
 #include "../Game_local.h"
+#include "../gamesys/SysCmds.h"
 
 class rvMonsterSlimyTransfer : public idAI {
 public:
@@ -112,6 +113,8 @@ rvMonsterSlimyTransfer::OnDeath
 */
 void rvMonsterSlimyTransfer::OnDeath ( void ) {
 	StopEffect ( "fx_vomit_muzzle" );
+	gameLocal.Printf("zombie dead");
+	gameLocal.GetLocalPlayer()->waveManager->RemoveDeadZombie();
 	idAI::OnDeath ( );
 }
 

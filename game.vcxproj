@@ -266,7 +266,6 @@
     <ClCompile Include="game\ai\Monster_TeleportDropper.cpp" />
     <ClCompile Include="game\ai\Monster_Turret.cpp" />
     <ClCompile Include="game\ai\Monster_TurretFlying.cpp" />
-    <ClCompile Include="game\ai\Monster_Zombie.cpp" />
     <ClCompile Include="game\ai\VehicleAI.cpp" />
     <ClCompile Include="game\anim\Anim.cpp" />
     <ClCompile Include="game\anim\Anim_Blend.cpp" />
@@ -340,6 +339,7 @@
     <ClCompile Include="game\Player_States.cpp" />
     <ClCompile Include="game\Projectile.cpp" />
     <ClCompile Include="game\Pvs.cpp" />
+    <ClCompile Include="game\Randomize.cpp" />
     <ClCompile Include="game\script\ScriptFuncUtility.cpp" />
     <ClCompile Include="game\script\Script_Compiler.cpp" />
     <ClCompile Include="game\script\Script_Interpreter.cpp" />
@@ -364,6 +364,7 @@
     <ClCompile Include="game\vehicle\VehicleStatic.cpp" />
     <ClCompile Include="game\vehicle\Vehicle_DropPod.cpp" />
     <ClCompile Include="game\vehicle\Vehicle_Walker.cpp" />
+    <ClCompile Include="game\WaveManager.cpp" />
     <ClCompile Include="game\Weapon.cpp" />
     <ClCompile Include="game\weapon\WeaponBlaster.cpp" />
     <ClCompile Include="game\weapon\WeaponDarkMatterGun.cpp" />
@@ -378,7 +379,6 @@
     <ClCompile Include="game\weapon\WeaponRocketLauncher.cpp" />
     <ClCompile Include="game\weapon\WeaponShotgun.cpp" />
     <ClCompile Include="game\WorldSpawn.cpp" />
-    <ClCompile Include="game\ZombieSpawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game\Actor.h" />
@@ -462,6 +462,7 @@
     <ClInclude Include="game\PlayerView.h" />
     <ClInclude Include="game\Projectile.h" />
     <ClInclude Include="game\Pvs.h" />
+    <ClInclude Include="game\Randomize.h" />
     <ClInclude Include="game\script\ScriptFuncUtility.h" />
     <ClInclude Include="game\script\Script_Compiler.h" />
     <ClInclude Include="game\script\Script_Interpreter.h" />
@@ -483,9 +484,9 @@
     <ClInclude Include="game\vehicle\VehicleRigid.h" />
     <ClInclude Include="game\vehicle\VehicleSpline.h" />
     <ClInclude Include="game\vehicle\VehicleStatic.h" />
+    <ClInclude Include="game\WaveManager.h" />
     <ClInclude Include="game\Weapon.h" />
     <ClInclude Include="game\WorldSpawn.h" />
-    <ClInclude Include="game\ZombieSpawner.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="game\Game.def" />
