@@ -272,6 +272,7 @@ class WaveManager;
 class idPlayer : public idActor {
 public:
 	WaveManager* waveManager;
+	int points = 0;
 
  	enum {
  		EVENT_IMPULSE = idEntity::EVENT_MAXEVENTS,
@@ -339,7 +340,6 @@ public:
 	idEntityPtr<rvViewWeapon>		weaponViewModel;
 	idEntityPtr<idAnimatedEntity>	weaponWorldModel;
 	const idDeclEntityDef*			weaponDef;
-
 
  	idUserInterface *		hud;				// Common hud
 	idUserInterface *		mphud;				// hud overlay containing MP elements
@@ -433,6 +433,10 @@ public:
 
 							idPlayer();
 	virtual					~idPlayer();
+
+	void					UpdatePoints(int pts, bool add);
+	void					UpdateWaveNum(int num);
+	void					BuyPerk(const char* perk);
 
 	void					Spawn( void );
 	void					Think( void );

@@ -8,9 +8,7 @@ class WaveManager {
 public:
 	int waveNum = 0;
 
-	int waveDelay = 10;		// delay between waves in seconds
-
-	int numZombiesToSpawn = 1;
+	int numZombiesToSpawn = 3;
 	int numZombiesAlive = 0;
 
 	WaveManager(void);

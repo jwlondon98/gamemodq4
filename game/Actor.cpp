@@ -2433,6 +2433,13 @@ void idActor::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir
 		}
 	}
 
+	// adding points when enemy gets hit by player
+	if (IsType(idAI::GetClassType()) && attacker->IsType(idPlayer::GetClassType()))
+	{
+		gameLocal.GetLocalPlayer()->UpdatePoints(10, true);
+		gameLocal.Printf("\ndamage points added. total points: %i\n", gameLocal.GetLocalPlayer()->points);
+	}
+	
 	if ( !noDmgFeedback ) {
 		// inform the attacker that they hit someone
 		attacker->DamageFeedback( this, inflictor, damage );

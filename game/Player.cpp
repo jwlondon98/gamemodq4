@@ -193,6 +193,37 @@ const idVec4 marineHitscanTint( 0.69f, 1.0f, 0.4f, 1.0f );
 const idVec4 stroggHitscanTint( 1.0f, 0.5f, 0.0f, 1.0f );
 const idVec4 defaultHitscanTint( 0.4f, 1.0f, 0.4f, 1.0f );
 
+void idPlayer::UpdatePoints(int pts, bool add)
+{
+	if (add)
+		points += pts;
+	else
+		points -= pts;
+
+	hud->SetStateInt("player_points", points);
+
+	hud->Redraw(gameLocal.time);
+}
+
+void idPlayer::UpdateWaveNum(int num)
+{
+	hud->SetStateInt("waveNum", num);
+
+	hud->Redraw(gameLocal.time);
+}
+
+void idPlayer::BuyPerk(const char* perk)
+{
+	if (strcmp(perk, "STAMINUP") == 0 && points >= 2000)
+	{
+		UpdatePoints(2000, false);
+		spawnArgs.SetFloat("pm_speed", 380);
+		AdjustSpeed();
+		
+		gameLocal.Printf("\nSTAMINUP BOUGHT\n");
+	}
+}
+
 /*
 ==============
 idInventory::Clear
@@ -8748,7 +8779,7 @@ void idPlayer::AdjustSpeed( void ) {
 		bobFrac = 0.0f;
  	} else if ( !physicsObj.OnLadder() && ( usercmd.buttons & BUTTON_RUN ) && ( usercmd.forwardmove || usercmd.rightmove ) && ( usercmd.upmove >= 0 ) ) {
 		bobFrac = 1.0f;
-		speed = pm_speed.GetFloat();
+		speed = spawnArgs.GetFloat("pm_speed");
 	} else {
 		speed = pm_walkspeed.GetFloat();
 		bobFrac = 0.0f;
@@ -9058,7 +9089,7 @@ void idPlayer::Move( void ) {
  			if ( vel.ToVec2().LengthSqr() < 0.1f ) {
  				vel.ToVec2() = physicsObj.GetOrigin().ToVec2() - groundEnt->GetPhysics()->GetAbsBounds().GetCenter().ToVec2();
  				vel.ToVec2().NormalizeFast();
- 				vel.ToVec2() *= pm_speed.GetFloat();
+ 				vel.ToVec2() *= spawnArgs.GetFloat("pm_speed");
  			} else {
  				// give em a push in the direction they're going
  				vel *= 1.1f;

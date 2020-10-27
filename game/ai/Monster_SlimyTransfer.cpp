@@ -113,8 +113,10 @@ rvMonsterSlimyTransfer::OnDeath
 */
 void rvMonsterSlimyTransfer::OnDeath ( void ) {
 	StopEffect ( "fx_vomit_muzzle" );
-	gameLocal.Printf("zombie dead");
+
 	gameLocal.GetLocalPlayer()->waveManager->RemoveDeadZombie();
+	gameLocal.GetLocalPlayer()->UpdatePoints(100, true);
+
 	idAI::OnDeath ( );
 }
 

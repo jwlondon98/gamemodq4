@@ -11,6 +11,8 @@ This class manages waves of zombies.
 #include "WaveManager.h"
 #include "Randomize.h"
 #include "../../idlib/precompiled.h"
+#include <ctime>
+#include <cstdlib>
 
 /*
 ================
@@ -63,8 +65,7 @@ void WaveManager::InitNextWave()
 	gameLocal.Printf("\nInitializing Wave.\n");
 
 	waveNum++;
-
-	//Sleep(waveDelay * 1000);		// delay for 10 seconds
+	gameLocal.GetLocalPlayer()->UpdateWaveNum(waveNum);
 
 	StartWave();
 }
@@ -84,13 +85,6 @@ void WaveManager::StartWave()
 	{
 		SpawnZombie(spawnPoints[Randomize::GetRandInt(0, 8)]);
 	}
-
-	// loop until all zombies are dead
-	//while (ZombiesAlive() == true)
-	//	continue;
-
-	// end the wave
-	//EndWave();
 }
 
 /*
