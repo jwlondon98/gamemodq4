@@ -197,6 +197,9 @@ void idPlayer::UpdatePoints(int pts, bool add)
 {
 	if (add) 
 	{
+		if (doublepts)
+			pts = pts * 2;
+
 		points += pts;
 		totalPoints += pts;
 	}
@@ -308,16 +311,16 @@ void idPlayer::BuyPerk(const char* perk)
 
 		gameLocal.Printf("\nDOUBLETAP BOUGHT\n");
 	}
-	else if (strcmp(perk, "FLOPPER") == 0 && points >= 2500)
+	else if (strcmp(perk, "SUPERJUMP") == 0 && points >= 2500)
 	{
 		UpdatePoints(2500, false);
 
-		if (!flopper)
+		if (!superjump)
 		{
 			maxJumpHeight += 500;
 			pfl.noFallingDamage = true;
 			physicsObj.SetMaxJumpHeight(maxJumpHeight);
-			flopper = true;
+			superjump = true;
 		}
 
 		gameLocal.Printf("\FLOPPER BOUGHT\n");
@@ -337,6 +340,104 @@ void idPlayer::BuyPerk(const char* perk)
 		gameLocal.CustomKillAllEnemies();
 
 		gameLocal.Printf("\nNUKEM BOUGHT\n");
+	}
+	else if (strcmp(perk, "DOUBLEPTS") == 0 && points >= 3000)
+	{
+		UpdatePoints(3000, false);
+
+		doublepts = true;
+
+		gameLocal.Printf("\nDOUBLEPTS BOUGHT\n");
+	}
+	else if (strcmp(perk, "ONESHOT") == 0 && points >= 4000)
+	{
+		UpdatePoints(4000, false);
+
+		oneshot = true;
+
+		gameLocal.Printf("\nONESHOT BOUGHT\n");
+	}
+}
+
+void idPlayer::BuyGun(const char* gun)
+{
+	if (strcmp(gun, "PISTOL") == 0)
+	{
+		gameLocal.CustomBuyGun("PISTOL");
+
+		gameLocal.Printf("\nPISTOL BOUGHT\n");
+	}
+	else if (strcmp(gun, "MACHINEGUN") == 0 && points >= 1200)
+	{
+		UpdatePoints(1200, false);
+
+		gameLocal.CustomBuyGun("MACHINEGUN");
+
+		gameLocal.Printf("\nMACHINEGUN BOUGHT\n");
+	}
+	else if (strcmp(gun, "ROCKET LAUNCHER") == 0 && points >= 3500)
+	{
+		UpdatePoints(3500, false);
+
+		gameLocal.CustomBuyGun("ROCKET LAUNCHER");
+
+		gameLocal.Printf("\nROCKET LAUNCHER BOUGHT\n");
+	}
+	else if (strcmp(gun, "GRENADE LAUNCHER") == 0 && points >= 3500)
+	{
+		UpdatePoints(3500, false);
+
+		gameLocal.CustomBuyGun("GRENADE LAUNCHER");
+
+		gameLocal.Printf("\nGRENADE LAUNCHER BOUGHT\n");
+	}
+	else if (strcmp(gun, "SHOTGUN") == 0 && points >= 800)
+	{
+		UpdatePoints(800, false);
+
+		gameLocal.CustomBuyGun("SHOTGUN");
+
+		gameLocal.Printf("\nSHOTGUN BOUGHT\n");
+	}
+	else if (strcmp(gun, "NAILGUN") == 0 && points >= 4000)
+	{
+		UpdatePoints(4000, false);
+
+		gameLocal.CustomBuyGun("NAILGUN");
+
+		gameLocal.Printf("\nNAILGUN BOUGHT\n");
+	}
+	else if (strcmp(gun, "DMG") == 0 && points >= 8000)
+	{
+		UpdatePoints(8000, false);
+
+		gameLocal.CustomBuyGun("DMG");
+
+		gameLocal.Printf("\nDMG BOUGHT\n");
+	}
+	else if (strcmp(gun, "RAILGUN") == 0 && points >= 5000)
+	{
+		UpdatePoints(5000, false);
+
+		gameLocal.CustomBuyGun("RAILGUN");
+
+		gameLocal.Printf("\nRAILGUN BOUGHT\n");
+	}
+	else if (strcmp(gun, "NAPALMER") == 0 && points >= 6500)
+	{
+		UpdatePoints(6500, false);
+
+		gameLocal.CustomBuyGun("NAPALMER");
+
+		gameLocal.Printf("\nNAPALMER BOUGHT\n");
+	}
+	else if (strcmp(gun, "LIGHTNINGGUN") == 0 && points >= 5000)
+	{
+		UpdatePoints(5000, false);
+
+		gameLocal.CustomBuyGun("LIGHTNINGGUN");
+
+		gameLocal.Printf("\nLIGHTNINGGUN BOUGHT\n");
 	}
 }
 
@@ -1528,6 +1629,7 @@ void idPlayer::SetWeapon( int weaponIndex ) {
 	previousWeapon	= currentWeapon;
 	currentWeapon	= weaponIndex;
 	weaponGone		= false;		
+	gameLocal.Printf("set weapon");
 
 	if ( weaponIndex < 0 ) {
 		weaponGone = true;
@@ -4315,6 +4417,7 @@ Returns false if the item shouldn't be picked up
 ===============
 */
 bool idPlayer::GiveItem( idItem *item ) {
+	gameLocal.Printf("give item 4419");
 	int					i;
 	const idKeyValue	*arg;
 	idDict				attr;
@@ -4397,7 +4500,7 @@ bool idPlayer::GiveItem( idItem *item ) {
 			UpdateHudWeapon( );
 		} else {
 			//so weapon mods highlight the correct weapon when received
-			int weapon = SlotForWeapon ( arg->GetValue() );
+			int weapon = SlotForWeapon(arg->GetValue());
 			UpdateHudWeapon( weapon );
 		}
 		hud->HandleNamedEvent( "weaponPulse" );
@@ -4409,8 +4512,11 @@ bool idPlayer::GiveItem( idItem *item ) {
 	
 //	GiveDatabaseEntry ( &item->spawnArgs );
 	
+	weapon->ammoClip = weapon->maxAmmo;
+
 	// Show the item pickup on the hud
 	if ( hud ) {
+		return gave;
 		idStr langToken = item->spawnArgs.GetString( "inv_name" );
 		hud->SetStateString ( "itemtext", common->GetLocalizedString( langToken ) );
 		hud->SetStateString ( "itemicon", item->spawnArgs.GetString( "inv_icon" ) );
@@ -5261,6 +5367,7 @@ void idPlayer::GiveWeaponMod ( const char* weaponmod ) {
 	}
 	
 	weaponIndex = SlotForWeapon ( weaponClass );
+	gameLocal.Printf("give weapon mod");
 
 	// Find the index of the weapon mod
 	for ( m = 0; m < MAX_WEAPONMODS; m ++ ) {		
@@ -5536,7 +5643,7 @@ idPlayer::SlotForWeapon
 int idPlayer::SlotForWeapon( const char *weaponName ) {
 	int i;
 
-	for( i = 0; i < MAX_WEAPONS; i++ ) {
+	for( i = 0; i < 10; i++ ) {
 		const char *weap = spawnArgs.GetString( va( "def_weapon%d", i ) );
 		if ( !idStr::Cmp( weap, weaponName ) ) {
 			return i;
@@ -5908,6 +6015,7 @@ void idPlayer::SelectWeapon( int num, bool force ) {
 
 		if( destWeapon != NULL ) {
 			int swapNum = SlotForWeapon( destWeapon );
+			gameLocal.Printf("slottin weapon");
 			if( swapNum == -1 ) {
 				gameLocal.Warning( "Swap weapon for %s (%s) is invalid", weap, destWeapon );
 			} else {
@@ -6220,7 +6328,7 @@ void idPlayer::Weapon_Combat( void ) {
  			assert( gameLocal.isClient );
    			weaponGone = false;
    			SetWeapon( idealWeapon );
-
+			gameLocal.Printf("\nweapon combate method called 1\n");
 			weapon->NetCatchup();
 			
 			SetAnimState( ANIMCHANNEL_TORSO, "Torso_Idle", 0 );
@@ -6235,6 +6343,7 @@ void idPlayer::Weapon_Combat( void ) {
 				assert( idealWeapon >= 0 );
 				assert( idealWeapon < MAX_WEAPONS );
 
+				gameLocal.Printf("\nweapon combate method called 2\n");
 				SetWeapon( idealWeapon );
 
 				weapon->Raise();
@@ -6459,6 +6568,7 @@ void idPlayer::UpdateWeapon( void ) {
 	// always make sure the weapon is correctly setup before accessing it
 	if ( !weapon ) {
 		if ( idealWeapon != -1 ) {
+			gameLocal.Printf("\nupdate weapon called\n");
 			SetWeapon( idealWeapon );
 			weaponCatchup = false;
 			assert( weapon );
@@ -7628,9 +7738,10 @@ void idPlayer::CrashLand( const idVec3 &oldOrigin, const idVec3 &oldVelocity ) {
 		}
 	}
 
+
 	//jshepard: no falling damage if falling damage is disabled
 	if( pfl.noFallingDamage )	{
-		return;
+		noDamage = true;
 	}
 
 	origin = GetPhysics()->GetOrigin();
@@ -7733,8 +7844,6 @@ void idPlayer::CrashLand( const idVec3 &oldOrigin, const idVec3 &oldVelocity ) {
 		// todo - 2 different landing sounds for variety?
 		StartSound ( "snd_land_soft", SND_CHANNEL_ANY, 0, false, NULL );				 
 	}
-
-	gameLocal.Printf("flopped");
 }
 
 /*
@@ -8637,15 +8746,40 @@ void idPlayer::PerformImpulse( int impulse ) {
 		else if (impulse == IMPULSE_2)
 			BuyPerk("DOUBLETAP");
 		else if (impulse == IMPULSE_3)
-			BuyPerk("FLOPPER");
+			BuyPerk("SUPERJUMP");
 		else if (impulse == IMPULSE_4)
 			BuyPerk("ONESHOT");
 		else if (impulse == IMPULSE_5)
 			BuyPerk("NUKEM");
-		else if (impulse == IMPULSE_5)
+		else if (impulse == IMPULSE_6)
 			BuyPerk("DOUBLEPTS");
 		else if (impulse == IMPULSE_7)
 			BuyPerk("ALLUCANAMMO");
+	}
+
+	// BUY GUNS
+	if (gunMenuOpened)
+	{
+		if (impulse == IMPULSE_0)
+			BuyGun("BLASTER");
+		else if (impulse == IMPULSE_1)
+			BuyGun("MACHINEGUN");
+		else if (impulse == IMPULSE_2)
+			BuyGun("ROCKET LAUNCHER");
+		else if (impulse == IMPULSE_3)
+			BuyGun("GRENADE LAUNCHER");
+		else if (impulse == IMPULSE_4)
+			BuyGun("SHOTGUN");
+		else if (impulse == IMPULSE_5)
+			BuyGun("NAILGUN");
+		else if (impulse == IMPULSE_6)
+			BuyGun("DMG");
+		else if (impulse == IMPULSE_7)
+			BuyGun("RAILGUN");
+		else if (impulse == IMPULSE_8)
+			BuyGun("NAPALMER");
+		else if (impulse == IMPULSE_9)
+			BuyGun("LIGHTNINGGUN");
 	}
 
 

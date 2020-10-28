@@ -451,6 +451,7 @@ public:
 							idGameLocal();
 
 	void					CustomKillAllEnemies(void);
+	void					CustomBuyGun(char * gun);
 
 // RAVEN BEGIN
 // jsinger: attempt to eliminate cross-DLL allocation issues

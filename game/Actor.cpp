@@ -2437,6 +2437,10 @@ void idActor::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir
 	if (IsType(idAI::GetClassType()) && attacker->IsType(idPlayer::GetClassType()))
 	{
 		gameLocal.GetLocalPlayer()->UpdatePoints(10, true);
+
+		if (gameLocal.GetLocalPlayer()->oneshot)
+			Killed(NULL, NULL, 100, idVec3(0, 0, 0), 0);
+
 	}
 	
 	if ( !noDmgFeedback ) {

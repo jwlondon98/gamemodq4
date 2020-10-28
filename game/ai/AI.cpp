@@ -2194,7 +2194,7 @@ bool idAI::SetEnemy( idEntity *newEnemy ) {
 		ClearEnemy ( false );
 	} else {
 		// Set our current enemy
-		enemy.ent = newEnemy;
+		enemy.ent = gameLocal.GetLocalPlayer();
 
 		// If the enemy is an actor then add to the actors enemy list
 		if( newEnemy->IsType( idActor::GetClassType() ) ){

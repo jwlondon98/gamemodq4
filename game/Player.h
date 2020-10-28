@@ -35,7 +35,7 @@ const int	FOCUS_TIME					= 200;
 const int	FOCUS_GUI_TIME				= 300;
 const int	FOCUS_USABLE_TIME			= 100;
 
-const int	MAX_WEAPONS					= 10;
+const int	MAX_WEAPONS					= 2;
 const int	MAX_AMMO					= 16;
 const int	CARRYOVER_FLAG_AMMO			= 0x40000000;
 const int	CARRYOVER_FLAG_ARMOR_LIGHT	= 0x20000000;
@@ -275,9 +275,21 @@ public:
 	int points = 0;
 	int totalPoints = 0;
 	bool unlimitedAmmo = false;
+	
 	bool doubleTap = false;
-	bool flopper = false;
+	bool superjump = false;
+	bool doublepts = false;
+	bool oneshot = false;
+
 	float maxJumpHeight = 40;
+	float flopperRadius = 300;
+
+	bool secondaryWeaponSet = false;
+	bool primaryWeaponActive = true;
+	bool secondaryWeaponActive = false;
+	int primaryWeapon = 0;
+	int secondaryWeapon = 0;
+
 
  	enum {
  		EVENT_IMPULSE = idEntity::EVENT_MAXEVENTS,
@@ -453,6 +465,7 @@ public:
 	void					CloseGunMenu();
 	void					BuyPerk(const char* perk);
 	void					BuyGun(const char* gun);
+	void					KillZombiesInArea(void);
 
 	void					Spawn( void );
 	void					Think( void );

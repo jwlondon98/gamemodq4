@@ -3055,6 +3055,61 @@ void idGameLocal::CustomKillAllEnemies(void)
 {
 	idCmdArgs* args = new idCmdArgs();
 	Cmd_KillMonsters_f(*args);
+	gameLocal.GetLocalPlayer()->waveManager->EndWave();
+}
+
+void idGameLocal::CustomBuyGun(char * gun)
+{
+	const char *key, *value;
+	int			i;
+	float		yaw;
+	idVec3		org;
+	idPlayer	*player;
+	idDict		dict;
+
+	player = gameLocal.GetLocalPlayer();
+	if (!player || !gameLocal.CheatsOk(false)) {
+		return;
+	}
+
+	yaw = player->viewAngles.yaw;
+
+	// set classname depending on the gun
+	if (strcmp(gun, "BLASTER") == 0)
+		dict.Set("classname", "weapon_blaster");
+	else if (strcmp(gun, "MACHINEGUN") == 0)
+		dict.Set("classname", "weapon_machinegun");
+	else if (strcmp(gun, "ROCKET LAUNCHER") == 0)
+		dict.Set("classname", "weapon_rocketlauncher");
+	else if (strcmp(gun, "GRENADE LAUNCHER") == 0)
+		dict.Set("classname", "weapon_grenadelauncher");
+	else if (strcmp(gun, "SHOTGUN") == 0)
+		dict.Set("classname", "weapon_shotgun");
+	else if (strcmp(gun, "NAILGUN") == 0)
+		dict.Set("classname", "weapon_nailgun");
+	else if (strcmp(gun, "DMG") == 0)
+		dict.Set("classname", "weapon_dmg");
+	else if (strcmp(gun, "RAILGUN") == 0)
+		dict.Set("classname", "weapon_railgun");
+	else if (strcmp(gun, "NAPALMER") == 0)
+		dict.Set("classname", "weapon_napalmgun");
+	else if (strcmp(gun, "LIGHTNINGGUN") == 0)
+		dict.Set("classname", "weapon_lightninggun");
+
+
+	dict.Set("angle", va("%f", yaw + 180));
+
+	org = player->GetPhysics()->GetOrigin() + idAngles(0, yaw, 0).ToForward() * 80 + idVec3(0, 0, 1);
+	dict.Set("origin", org.ToString());
+
+	// RAVEN BEGIN
+	// kfuller: want to know the name of the entity I spawned
+	idEntity *newEnt = NULL;
+	gameLocal.SpawnEntityDef(dict, &newEnt);
+
+	if (newEnt) {
+		gameLocal.Printf("spawned entity '%s'\n", newEnt->name.c_str());
+	}
 }
 
 /*
