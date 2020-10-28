@@ -5215,6 +5215,7 @@ void idGameLocal::SpawnMapEntities( int instance, unsigned short* entityNumIn, u
 				// and also udpate binds on a per-instance bases
 				idStr bind;
 				if( args.GetString( "bind", "", bind ) ) {
+					gameLocal.Printf("Game_local bind");
 					args.Set( "bind", va( "%s_instance%d", bind.c_str(), instance ) );
 				}
 

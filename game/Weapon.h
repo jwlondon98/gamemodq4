@@ -273,6 +273,8 @@ public:
 
 	idMat3				ForeshortenAxis				( const idMat3& axis ) const;
 
+	bool doubleTapFireRateSet = false;
+
 	// Script state management
 	struct weaponStateFlags_s {
 		bool		attack				:1;

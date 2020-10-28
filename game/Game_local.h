@@ -450,6 +450,8 @@ public:
 
 							idGameLocal();
 
+	void					CustomKillAllEnemies(void);
+
 // RAVEN BEGIN
 // jsinger: attempt to eliminate cross-DLL allocation issues
 #ifdef RV_UNIFIED_ALLOCATOR

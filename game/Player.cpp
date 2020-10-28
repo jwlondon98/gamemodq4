@@ -195,8 +195,11 @@ const idVec4 defaultHitscanTint( 0.4f, 1.0f, 0.4f, 1.0f );
 
 void idPlayer::UpdatePoints(int pts, bool add)
 {
-	if (add)
+	if (add) 
+	{
 		points += pts;
+		totalPoints += pts;
+	}
 	else
 		points -= pts;
 
@@ -212,15 +215,128 @@ void idPlayer::UpdateWaveNum(int num)
 	hud->Redraw(gameLocal.time);
 }
 
+void idPlayer::OpenBuyMenu()
+{
+	if (buyMenuOpened == true)
+	{
+		CloseBuyMenu();
+		return;
+	}
+	else
+	{
+		if (perkMenuOpened)
+		{
+			ClosePerkMenu();
+			return;
+		}
+		else if (gunMenuOpened)
+		{
+			CloseGunMenu();
+			return;
+		}
+	}
+
+	buyMenuOpened = true;
+	hud->HandleNamedEvent("showBuyMenu");
+}
+
+
+void idPlayer::CloseBuyMenu()
+{
+	buyMenuOpened = false;
+	hud->HandleNamedEvent("hideBuyMenu");
+}
+
+void idPlayer::OpenPerkMenu()
+{
+	if (perkMenuOpened == true)
+	{
+		ClosePerkMenu();
+		return;
+	}
+
+	perkMenuOpened = true;
+	hud->HandleNamedEvent("showPerkMenu");
+}
+
+void idPlayer::ClosePerkMenu()
+{
+	perkMenuOpened = false;
+	hud->HandleNamedEvent("hidePerkMenu");
+}
+
+void idPlayer::OpenGunMenu()
+{
+	if (gunMenuOpened == true)
+	{
+		CloseGunMenu();
+		return;
+	}
+
+	gunMenuOpened = true;
+	hud->HandleNamedEvent("showGunMenu");
+}
+
+void idPlayer::CloseGunMenu()
+{
+	gunMenuOpened = false;
+	hud->HandleNamedEvent("hideGunMenu");
+}
+
 void idPlayer::BuyPerk(const char* perk)
 {
-	if (strcmp(perk, "STAMINUP") == 0 && points >= 2000)
+	if (strcmp(perk, "JUGGERNOG") == 0 && points >= 2500)
+	{
+		UpdatePoints(2500, false);
+		health = inventory.maxHealth * 2;
+
+		gameLocal.Printf("\nJUGGERNOG BOUGHT\n");
+	}
+	else if (strcmp(perk, "STAMINUP") == 0 && points >= 2000)
 	{
 		UpdatePoints(2000, false);
 		spawnArgs.SetFloat("pm_speed", 380);
 		AdjustSpeed();
 		
 		gameLocal.Printf("\nSTAMINUP BOUGHT\n");
+	}
+	else if (strcmp(perk, "DOUBLETAP") == 0 && points >= 2000)
+	{
+		UpdatePoints(2000, false);
+
+		doubleTap = true;
+
+		gameLocal.Printf("\nDOUBLETAP BOUGHT\n");
+	}
+	else if (strcmp(perk, "FLOPPER") == 0 && points >= 2500)
+	{
+		UpdatePoints(2500, false);
+
+		if (!flopper)
+		{
+			maxJumpHeight += 500;
+			pfl.noFallingDamage = true;
+			physicsObj.SetMaxJumpHeight(maxJumpHeight);
+			flopper = true;
+		}
+
+		gameLocal.Printf("\FLOPPER BOUGHT\n");
+	}
+	else if (strcmp(perk, "ALLUCANAMMO") == 0 && points >= 4500)
+	{
+		UpdatePoints(4500, false);
+
+		unlimitedAmmo = true;
+
+		gameLocal.Printf("\nALL U CAN AMMO BOUGHT\n");
+	}
+	else if (strcmp(perk, "NUKEM") == 0 && points >= 5000)
+	{
+		UpdatePoints(5000, false);
+		
+		gameLocal.CustomKillAllEnemies();
+
+		gameLocal.Printf("\nNUKEM BOUGHT\n");
 	}
 }
 
@@ -1095,6 +1211,8 @@ bool idInventory::UseAmmo( int index, int amount ) {
 
 	// take an ammo away if not infinite
 	if ( ammo[ index ] >= 0 ) {
+		if (gameLocal.GetLocalPlayer()->unlimitedAmmo == true)
+			return true;
 		ammo[ index ] -= amount;
  		ammoPredictTime = gameLocal.time; // mp client: we predict this. mark time so we're not confused by snapshots
 	}
@@ -7615,6 +7733,8 @@ void idPlayer::CrashLand( const idVec3 &oldOrigin, const idVec3 &oldVelocity ) {
 		// todo - 2 different landing sounds for variety?
 		StartSound ( "snd_land_soft", SND_CHANNEL_ANY, 0, false, NULL );				 
 	}
+
+	gameLocal.Printf("flopped");
 }
 
 /*
@@ -8488,7 +8608,48 @@ void idPlayer::PerformImpulse( int impulse ) {
 		ClientSendEvent( EVENT_IMPULSE, &msg );
 	}
 
-	if ( impulse >= IMPULSE_0 && impulse <= IMPULSE_12 ) {
+	// OPEN PERK OR GUN MENU
+	if (buyMenuOpened)
+	{
+		if (impulse == IMPULSE_0)
+		{
+			gameLocal.GetLocalPlayer()->CloseBuyMenu();
+			gameLocal.GetLocalPlayer()->OpenPerkMenu();
+			gameLocal.Printf("perk menu opened");
+		}
+		else if (impulse == IMPULSE_1)
+		{
+			gameLocal.GetLocalPlayer()->CloseBuyMenu();
+			gameLocal.GetLocalPlayer()->OpenGunMenu();
+			gameLocal.Printf("gun menu opened");
+		}
+
+		return;
+	}
+
+	// BUY PERKS
+	if (perkMenuOpened)
+	{
+		if (impulse == IMPULSE_0)
+			BuyPerk("JUGGERNOG");
+		else if (impulse == IMPULSE_1)
+			BuyPerk("STAMINUP");
+		else if (impulse == IMPULSE_2)
+			BuyPerk("DOUBLETAP");
+		else if (impulse == IMPULSE_3)
+			BuyPerk("FLOPPER");
+		else if (impulse == IMPULSE_4)
+			BuyPerk("ONESHOT");
+		else if (impulse == IMPULSE_5)
+			BuyPerk("NUKEM");
+		else if (impulse == IMPULSE_5)
+			BuyPerk("DOUBLEPTS");
+		else if (impulse == IMPULSE_7)
+			BuyPerk("ALLUCANAMMO");
+	}
+
+
+	if ( impulse >= IMPULSE_0 && impulse <= IMPULSE_12 && !buyMenuOpened && !gunMenuOpened && !perkMenuOpened) {
 		SelectWeapon( impulse, false );
 		return;
 	}
@@ -8998,7 +9159,7 @@ void idPlayer::Move( void ) {
 
 	// set physics variables
 	physicsObj.SetMaxStepHeight( pm_stepsize.GetFloat() );
-	physicsObj.SetMaxJumpHeight( pm_jumpheight.GetFloat() );
+	physicsObj.SetMaxJumpHeight( maxJumpHeight );
 
 	if ( noclip ) {
 		physicsObj.SetContents( 0 );
@@ -9318,6 +9479,9 @@ Called every tic for each player
 void idPlayer::Think( void ) {
 	renderEntity_t *headRenderEnt;
  
+	if ((usercmd.buttons & BUTTON_VOICECHAT) != 0)
+		gameLocal.Printf("YOU PRESSED THE BUY BUTTON");
+
 	if ( talkingNPC ) {
 		if ( !talkingNPC.IsValid() ) {
 			talkingNPC = NULL;

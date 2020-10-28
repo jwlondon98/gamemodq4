@@ -107,8 +107,6 @@ void WaveManager::EndWave()
 
 void WaveManager::SpawnZombie(idVec3 origin)
 {
-	gameLocal.Printf("\nstart of spawn zombie method\n");
-
 	idDict args;
 
 	const idDeclEntityDef* entityDef = gameLocal.FindEntityDef("monster_slimy_transfer", false);
@@ -127,11 +125,9 @@ void WaveManager::SpawnZombie(idVec3 origin)
 
 void WaveManager::RemoveDeadZombie()
 {
-	gameLocal.Printf("\nremoving dead zombie\n");
-
 	numZombiesAlive--;
 
-	gameLocal.Printf("zombies alive: %i", numZombiesAlive);
+	gameLocal.Printf("\nzombies alive: %i\n", numZombiesAlive);
 
 	if (numZombiesAlive <= 0)
 		EndWave();

@@ -1028,6 +1028,7 @@ void idAFEntity_Base::SaveState( idDict &args ) const {
 	kv = spawnArgs.FindKey( "bind" );
 	if ( kv ) {
 		args.Set( kv->GetKey(), kv->GetValue() );
+		gameLocal.Printf("AFEntity bind");
 	}
 	kv = spawnArgs.FindKey( "bindToJoint" );
 	if ( kv ) {

@@ -38,24 +38,11 @@ void Cmd_StartCustomMod(const idCmdArgs &args)
 	gameLocal.GetLocalPlayer()->waveManager = new WaveManager();
 }
 
-void Cmd_BuyPerk(const idCmdArgs &args)
+void Cmd_GivePoints(const idCmdArgs &args)
 {
-	gameLocal.Printf("ARG1: %s", args.Argv(1));
-
-	gameLocal.GetLocalPlayer()->BuyPerk(args.Argv(1));
+	gameLocal.GetLocalPlayer()->UpdatePoints(100000, true);
 }
 
-void Cmd_ListPerks(const idCmdArgs &args)
-{
-	gameLocal.Printf("\n---------- PERKS ----------\n");
-	gameLocal.Printf("* JUGGERNOG --> 2500 pts\n");
-	gameLocal.Printf("* SPEEDCOLA --> 3000 pts\n");
-	gameLocal.Printf("* STAMINUP --> 2000 pts\n");
-	gameLocal.Printf("* FLOPPER --> 2500 pts\n");
-	gameLocal.Printf("* NUKEM --> 5000 pts\n");
-	gameLocal.Printf("* ONESHOT --> 3500 pts\n");
-	gameLocal.Printf("---------------------------");
-}
 
 /*
 ==================
@@ -3064,6 +3051,12 @@ void Cmd_ClientOverflowReliable_f( const idCmdArgs& args ) {
 }
 #endif
 
+void idGameLocal::CustomKillAllEnemies(void)
+{
+	idCmdArgs* args = new idCmdArgs();
+	Cmd_KillMonsters_f(*args);
+}
+
 /*
 =================
 idGameLocal::InitConsoleCommands
@@ -3080,8 +3073,7 @@ void idGameLocal::InitConsoleCommands( void ) {
 //	cmdSystem->AddCommand( "testSaveGame",			TestSaveGame_f,				CMD_FL_GAME|CMD_FL_CHEAT,	"test a save game for a level" );
 // RAVEN END
 	cmdSystem->AddCommand( "startmod",				Cmd_StartCustomMod,		CMD_FL_GAME|CMD_FL_CHEAT,	"starts zombie spawner for custom mod" );
-	cmdSystem->AddCommand( "buyPerk",				Cmd_BuyPerk,		CMD_FL_GAME|CMD_FL_CHEAT,	"buys perk" );
-	cmdSystem->AddCommand( "listPerks",				Cmd_ListPerks,			CMD_FL_GAME|CMD_FL_CHEAT,	"lists all of the perks and their prices" );
+	cmdSystem->AddCommand( "givepoints",			Cmd_GivePoints,			CMD_FL_GAME|CMD_FL_CHEAT,	"gives points for testing custom mod" );
 	
 	cmdSystem->AddCommand( "game_memory",			idClass::DisplayInfo_f,		CMD_FL_GAME,				"displays game class info" );
 	cmdSystem->AddCommand( "listClasses",			idClass::ListClasses_f,		CMD_FL_GAME,				"lists game classes" );

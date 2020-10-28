@@ -2437,7 +2437,6 @@ void idActor::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir
 	if (IsType(idAI::GetClassType()) && attacker->IsType(idPlayer::GetClassType()))
 	{
 		gameLocal.GetLocalPlayer()->UpdatePoints(10, true);
-		gameLocal.Printf("\ndamage points added. total points: %i\n", gameLocal.GetLocalPlayer()->points);
 	}
 	
 	if ( !noDmgFeedback ) {

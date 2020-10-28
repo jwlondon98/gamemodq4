@@ -4672,6 +4672,8 @@ const char* idMultiplayerGame::HandleGuiCommands( const char *_menuCommand ) {
 			DisableMenu();
 			return NULL;
 		} else if ( !idStr::Icmp( cmd, "bind" ) ) {
+			gameLocal.Printf("MultiplayerGame bind");
+
 			if ( args.Argc() - icmd >= 2 ) {
 				idStr key = args.Argv( icmd++ );
 				idStr bind = args.Argv( icmd++ );
@@ -6029,7 +6031,8 @@ void idMultiplayerGame::MessageMode( const idCmdArgs &args ) {
 	int imode;
 
 	if ( !gameLocal.isMultiplayer ) {
-		common->Printf( "clientMessageMode: only valid in multiplayer\n" );
+		//common->Printf( "clientMessageMode: only valid in multiplayer\n" );
+		gameLocal.GetLocalPlayer()->OpenBuyMenu();
 		return;
 	}
 	if ( !mainGui ) {

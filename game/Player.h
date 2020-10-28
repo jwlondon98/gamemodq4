@@ -35,7 +35,7 @@ const int	FOCUS_TIME					= 200;
 const int	FOCUS_GUI_TIME				= 300;
 const int	FOCUS_USABLE_TIME			= 100;
 
-const int	MAX_WEAPONS					= 2;
+const int	MAX_WEAPONS					= 10;
 const int	MAX_AMMO					= 16;
 const int	CARRYOVER_FLAG_AMMO			= 0x40000000;
 const int	CARRYOVER_FLAG_ARMOR_LIGHT	= 0x20000000;
@@ -273,6 +273,11 @@ class idPlayer : public idActor {
 public:
 	WaveManager* waveManager;
 	int points = 0;
+	int totalPoints = 0;
+	bool unlimitedAmmo = false;
+	bool doubleTap = false;
+	bool flopper = false;
+	float maxJumpHeight = 40;
 
  	enum {
  		EVENT_IMPULSE = idEntity::EVENT_MAXEVENTS,
@@ -289,6 +294,10 @@ public:
 	usercmd_t				usercmd;
 
 	class idPlayerView		playerView;			// handles damage kicks and effects
+
+	bool buyMenuOpened = false;
+	bool perkMenuOpened = false;
+	bool gunMenuOpened = false;
 
 	bool					alreadyDidTeamAnnouncerSound;
 	bool					noclip;
@@ -436,7 +445,14 @@ public:
 
 	void					UpdatePoints(int pts, bool add);
 	void					UpdateWaveNum(int num);
+	void					OpenBuyMenu();
+	void					CloseBuyMenu();
+	void					OpenPerkMenu();
+	void					ClosePerkMenu();
+	void					OpenGunMenu();
+	void					CloseGunMenu();
 	void					BuyPerk(const char* perk);
+	void					BuyGun(const char* gun);
 
 	void					Spawn( void );
 	void					Think( void );

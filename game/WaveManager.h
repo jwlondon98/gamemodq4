@@ -8,6 +8,9 @@ class WaveManager {
 public:
 	int waveNum = 0;
 
+	float initWaveDelay = 0.5;
+	float waveDelay = 0.5;
+
 	int numZombiesToSpawn = 3;
 	int numZombiesAlive = 0;
 

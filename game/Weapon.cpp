@@ -1901,6 +1901,13 @@ rvWeapon::BeginAttack
 ================
 */
 void rvWeapon::BeginAttack( void ) {
+	if (gameLocal.GetLocalPlayer()->doubleTap && !doubleTapFireRateSet)
+	{
+		fireRate /= 2;
+		altFireRate /= 2;
+		doubleTapFireRateSet = true;
+	}
+
 	wsfl.attack = true;
 
 	if ( status != WP_OUTOFAMMO ) {
@@ -2531,13 +2538,16 @@ void rvWeapon::Attack( bool altAttack, int num_attacks, float spread, float fuse
 		// check if we're out of ammo or the clip is empty
 		int ammoAvail = owner->inventory.HasAmmo( ammoType, ammoRequired );
 		if ( !ammoAvail || ( ( clipSize != 0 ) && ( ammoClip <= 0 ) ) ) {
-			return;
+			if (gameLocal.GetLocalPlayer()->unlimitedAmmo == false)
+				return;
 		}
 
 		owner->inventory.UseAmmo( ammoType, ammoRequired );
 		if ( clipSize && ammoRequired ) {
  			clipPredictTime = gameLocal.time;	// mp client: we predict this. mark time so we're not confused by snapshots
-			ammoClip -= 1;
+			
+			if (gameLocal.GetLocalPlayer()->unlimitedAmmo == false)
+				ammoClip -= 1;
 		}
 
 		// wake up nearby monsters

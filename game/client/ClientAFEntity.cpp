@@ -151,6 +151,7 @@ void rvClientAFEntity::SaveState( idDict &args ) const {
 	kv = spawnArgs.FindKey( "bind" );
 	if ( kv ) {
 		args.Set( kv->GetKey(), kv->GetValue() );
+		gameLocal.Printf("ClientAFEntity bind");
 	}
 	kv = spawnArgs.FindKey( "bindToJoint" );
 	if ( kv ) {
