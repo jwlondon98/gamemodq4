@@ -108,12 +108,13 @@ void WaveManager::EndWave()
 void WaveManager::SpawnZombie(idVec3 origin)
 {
 	idDict args;
+	idVec3 originOffset = idVec3(Randomize::GetRandInt(5, 16), 0, Randomize::GetRandInt(5, 16));
 
 	const idDeclEntityDef* entityDef = gameLocal.FindEntityDef("monster_slimy_transfer", false);
 	if (entityDef)
 	{
 		args.SetDefaults(&(entityDef->dict));
-		args.Set("origin", origin.ToString());
+		args.Set("origin", (origin + originOffset).ToString());
 
 		idEntity *zombie = NULL;
 		gameLocal.SpawnEntityDef(args, &zombie);
