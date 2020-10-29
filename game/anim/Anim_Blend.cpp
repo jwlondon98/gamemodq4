@@ -4216,6 +4216,18 @@ void idAnimator::AimJointAt ( jointHandle_t jointnum, const idVec3& pos, const i
 	ForceUpdate();
 }
 
+// custom method made to rotate gauntlet blade to face forward - JL
+void idAnimator::SetJointRotation(jointHandle_t jointnum, const idAngles& rot)
+{
+	jointMod_t *jointMod;
+
+	jointMod = FindJointMod(jointnum);
+
+	jointMod->mat = rot.ToMat3();
+
+	gameLocal.Printf("\nBLADE ANGLES SET\n");
+}
+
 /*
 =====================
 idAnimator::SetJointAngularVelocity

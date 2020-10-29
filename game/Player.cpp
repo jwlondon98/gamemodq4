@@ -439,6 +439,14 @@ void idPlayer::BuyGun(const char* gun)
 
 		gameLocal.Printf("\nLIGHTNINGGUN BOUGHT\n");
 	}
+	else if (strcmp(gun, "GAUNTLET") == 0 && points >= 8000)
+	{
+		UpdatePoints(5000, false);
+
+		gameLocal.CustomBuyGun("GAUNTLET");
+
+		gameLocal.Printf("\nGAUNTLET BOUGHT\n");
+	}
 }
 
 /*
@@ -4312,6 +4320,8 @@ idPlayer::Give
 bool idPlayer::Give( const char *statname, const char *value, bool dropped ) {
 	int amount;
 
+	gameLocal.Printf("\nGIVE\n");
+
 	if ( pfl.dead ) {
 		return false;
 	}
@@ -4417,7 +4427,7 @@ Returns false if the item shouldn't be picked up
 ===============
 */
 bool idPlayer::GiveItem( idItem *item ) {
-	gameLocal.Printf("give item 4419");
+	gameLocal.Printf("\ngive item 4419\n");
 	int					i;
 	const idKeyValue	*arg;
 	idDict				attr;
@@ -4431,11 +4441,11 @@ bool idPlayer::GiveItem( idItem *item ) {
 
 	item->GetAttributes( attr );
 
-	if( gameLocal.isServer || !gameLocal.isMultiplayer ) {
+	if( true /*gameLocal.isServer || !gameLocal.isMultiplayer*/ ) {
 		gave = false;
 		bool skipWeaponKey = false;
 		bool skipRestOfKeys = false;
-		if ( gameLocal.IsMultiplayer() ) {
+		if ( true ) {
 			dropped = item->spawnArgs.GetBool( "dropped" );
 			if ( item->spawnArgs.FindKey( "weaponclass" ) ) {
 				//this is really fucking lame, but
@@ -4459,6 +4469,7 @@ bool idPlayer::GiveItem( idItem *item ) {
 			}
 		}
 		if ( !skipRestOfKeys ) {
+			gameLocal.Printf("\nskip rest of keys\n");
 			for( i = 0; i < attr.GetNumKeyVals(); i++ ) {
 				arg = attr.GetKeyVal( i );
 				if ( skipWeaponKey && arg->GetKey() == "weapon" ) {
@@ -5643,7 +5654,7 @@ idPlayer::SlotForWeapon
 int idPlayer::SlotForWeapon( const char *weaponName ) {
 	int i;
 
-	for( i = 0; i < 10; i++ ) {
+	for( i = 0; i < 12; i++ ) {
 		const char *weap = spawnArgs.GetString( va( "def_weapon%d", i ) );
 		if ( !idStr::Cmp( weap, weaponName ) ) {
 			return i;
@@ -5984,6 +5995,7 @@ void idPlayer::SelectWeapon( int num, bool force ) {
 	}
 
 	if ( ( num < 0 ) || ( num >= MAX_WEAPONS ) ) {
+		gameLocal.Printf("select weapon num >= MAX_WEAPONS");
 		return;
 	}
 
@@ -8755,6 +8767,8 @@ void idPlayer::PerformImpulse( int impulse ) {
 			BuyPerk("DOUBLEPTS");
 		else if (impulse == IMPULSE_7)
 			BuyPerk("ALLUCANAMMO");
+
+		return;
 	}
 
 	// BUY GUNS
@@ -8780,6 +8794,10 @@ void idPlayer::PerformImpulse( int impulse ) {
 			BuyGun("NAPALMER");
 		else if (impulse == IMPULSE_9)
 			BuyGun("LIGHTNINGGUN");
+		else if (impulse == IMPULSE_50)
+			BuyGun("GAUNTLET");
+
+		return;
 	}
 
 

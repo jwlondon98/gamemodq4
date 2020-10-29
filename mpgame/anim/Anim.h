@@ -663,6 +663,7 @@ class idAnimator{
 // bdube: more joint control functions
 	void						AimJointAt ( jointHandle_t jointnum, const idVec3& pos, const int blendtime );
 	void						SetJointAngularVelocity ( jointHandle_t jointnum, const idAngles& vel, const int currentTime, const int blendTime );
+	void						SetJointAngles ( jointHandle_t jointnum, const idAngles& vel, const int currentTime, const int blendTime );
 	idAngles					GetJointAngularVelocity ( jointHandle_t jointnum, const int currentTime );
 	void						ClearJointAngularVelocity ( jointHandle_t jointnum );
 

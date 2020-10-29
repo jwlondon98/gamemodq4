@@ -902,6 +902,7 @@ void idItem::Event_Pickup( int clientNum ) {
 		player = (idPlayer*)gameLocal.entities[ clientNum ];
 		player->lastPickupTime = gameLocal.time;
 		if ( player ) {
+			gameLocal.Printf("\nEVENT PICKUP IN ITEM.cpp\n");
 			player->GiveItem( this );
 		}
 	}

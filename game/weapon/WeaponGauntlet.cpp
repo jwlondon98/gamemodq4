@@ -23,6 +23,7 @@ protected:
 
 	idAngles			bladeSpinFast;
 	idAngles			bladeSpinSlow;
+	idAngles			bladeAngles;
 	jointHandle_t		bladeJoint;
 	jointHandle_t		bladeJoint_world;
 	int					bladeAccel;
@@ -96,6 +97,7 @@ void rvWeaponGauntlet::Spawn ( void ) {
 
 	bladeSpinFast	= spawnArgs.GetAngles ( "blade_spinfast" );
 	bladeSpinSlow	= spawnArgs.GetAngles ( "blade_spinslow" );
+	bladeAngles = spawnArgs.GetAngles ( "blade_angles" );
 	bladeAccel		= SEC2MS ( spawnArgs.GetFloat ( "blade_accel", ".25" ) );
 	
 	range			= spawnArgs.GetFloat ( "range", "32" );
@@ -209,6 +211,8 @@ void rvWeaponGauntlet::Attack ( void ) {
 	trace_t		tr;
 	idEntity*	ent;
 	
+	viewModel->PlayEffect("fx_flash", bladeJoint, true);
+
 	// Cast a ray out to the lock range
 // RAVEN BEGIN
 // ddynerman: multiple clip worlds
@@ -309,6 +313,7 @@ rvWeaponGauntlet::StartBlade
 */
 void rvWeaponGauntlet::StartBlade ( void ) {
 	if ( viewModel ) {
+		viewModel->GetAnimator()->SetJointRotation(bladeJoint, bladeAngles);
 		viewModel->GetAnimator()->SetJointAngularVelocity ( bladeJoint, bladeSpinFast, gameLocal.time, bladeAccel ); 
 	}
 	
@@ -438,6 +443,8 @@ stateResult_t rvWeaponGauntlet::State_Idle ( const stateParms_t& parms ) {
 		case IDLE_INIT:			
 			SetStatus ( WP_READY );
 			StopBlade ( );
+			viewModel->StopEffect("fx_flash");
+
 			PlayCycle( ANIMCHANNEL_ALL, "idle", parms.blendFrames );
 			return SRESULT_STAGE ( IDLE_WAIT );
 			
@@ -471,7 +478,7 @@ stateResult_t rvWeaponGauntlet::State_Fire ( const stateParms_t& parms ) {
 	};	
 	switch ( parms.stage ) {
 		case STAGE_START:	
-			PlayAnim ( ANIMCHANNEL_ALL, "attack_start", parms.blendFrames );
+			PlayAnim ( ANIMCHANNEL_ALL, "attack_start", parms.blendFrames * 2);
 			StartBlade ( );
 			loopSound = LOOP_NONE;
 			return SRESULT_STAGE(STAGE_START_WAIT);
@@ -480,13 +487,13 @@ stateResult_t rvWeaponGauntlet::State_Fire ( const stateParms_t& parms ) {
 			if ( !wsfl.attack ) {
 				return SRESULT_STAGE ( STAGE_END );
 			}
-			if ( AnimDone ( ANIMCHANNEL_ALL, parms.blendFrames ) ) {
+			if ( AnimDone ( ANIMCHANNEL_ALL, parms.blendFrames * 2) ) {
 				return SRESULT_STAGE ( STAGE_LOOP );
 			}
 			return SRESULT_WAIT;
 			
 		case STAGE_LOOP:
-			PlayCycle ( ANIMCHANNEL_ALL, "attack_loop", parms.blendFrames );
+			PlayCycle ( ANIMCHANNEL_ALL, "attack_loop", parms.blendFrames * 2);
 			StartSound( "snd_spin_loop", SND_CHANNEL_WEAPON, 0, false, 0 );
 			return SRESULT_STAGE(STAGE_LOOP_WAIT);
 			
@@ -498,7 +505,7 @@ stateResult_t rvWeaponGauntlet::State_Fire ( const stateParms_t& parms ) {
 			return SRESULT_WAIT;
 		
 		case STAGE_END:
-			PlayAnim ( ANIMCHANNEL_ALL, "attack_end", parms.blendFrames );
+			PlayAnim ( ANIMCHANNEL_ALL, "attack_end", parms.blendFrames * 2);
 			StopBlade ( );
 			StartSound( "snd_spin_down", SND_CHANNEL_WEAPON, 0, false, 0 );
 			return SRESULT_STAGE ( STAGE_END_WAIT );

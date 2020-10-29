@@ -665,6 +665,7 @@ class idAnimator{
 	void						SetJointAngularVelocity ( jointHandle_t jointnum, const idAngles& vel, const int currentTime, const int blendTime );
 	idAngles					GetJointAngularVelocity ( jointHandle_t jointnum, const int currentTime );
 	void						ClearJointAngularVelocity ( jointHandle_t jointnum );
+	void						SetJointRotation(jointHandle_t jointnum, const idAngles& vel);
 
 // jshepard: rate of playback change
 	void						SetPlaybackRate(float multiplier);

@@ -3095,6 +3095,8 @@ void idGameLocal::CustomBuyGun(char * gun)
 		dict.Set("classname", "weapon_napalmgun");
 	else if (strcmp(gun, "LIGHTNINGGUN") == 0)
 		dict.Set("classname", "weapon_lightninggun");
+	else if (strcmp(gun, "GAUNTLET") == 0)
+		dict.Set("classname", "weapon_gauntlet");
 
 
 	dict.Set("angle", va("%f", yaw + 180));

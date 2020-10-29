@@ -46,7 +46,7 @@ This readme details a custom zombies mod for Quake 4 as a midterm for a Game Mod
 
 ## Weapon Changes
 * Added a “numAttacks” definition for easily modifying the number of projectiles that spawn per attack
-#### Blaster.def
+#### Blaster
 * flashlightRadius: 400 to 0
 * Recoil time: 100 to 50
 * Charge time: 1000 now to basically disable charge mode
@@ -56,7 +56,7 @@ This readme details a custom zombies mod for Quake 4 as a midterm for a Game Mod
 * Changed audio to machine gun’s audio
 * Changed muzzle flash effect to machine gun’s muzzle flash
 
-#### Machinegun.def
+#### Machinegun
 * flashlightRadius: 400 to 0
 * recoilTime: 145 to 60
 * fireRate: .1 to .02
@@ -65,7 +65,7 @@ This readme details a custom zombies mod for Quake 4 as a midterm for a Game Mod
 * zoomHideCrosshair: 0 to 1
 * Starting ammo increased
 
-#### Rocketlauncher.def
+#### Rocketlauncher
 * Spread: 6
 * numProjectiles: 3
 * Starting ammo increased
@@ -76,14 +76,14 @@ This readme details a custom zombies mod for Quake 4 as a midterm for a Game Mod
 * Starting ammo increased
 * Projectile bounce: 5
 
-#### Shotgun.def
+#### Shotgun
 * fireRate: 0.2
 * Spread: 3
 * hitscans: 5
 * Projectile change to nail
 * Starting ammo increased
 
-#### Nailgun.def
+#### Nailgun
 * Projectile changed ot blaster to make it cooler
 * fireRate: .01
 * Spread: 5
@@ -91,7 +91,7 @@ This readme details a custom zombies mod for Quake 4 as a midterm for a Game Mod
 * drumSpeed: .01
 * Starting ammo increased
 
-#### DMG.def
+#### DMG
 * fireRate: 2 to .5
 * Spread: 30
 * numProjectiles: 5
@@ -99,14 +99,14 @@ This readme details a custom zombies mod for Quake 4 as a midterm for a Game Mod
 * Projectile Speed: 250 to 500
 * flyEffectAttenuateSpeed: 200 to 450
 
-#### Railgun.def
+#### Railgun
 * Firerate: .3
 * Spread: 10
 * numProjectiles: 10
 * Push: 100000
 * Starting ammo increased
 
-#### Napalmgun.def
+#### Napalmgun
 * Firerate: 0.2
 * Projectile bounce: 1
 * Projectile speed: 3000
@@ -115,9 +115,14 @@ This readme details a custom zombies mod for Quake 4 as a midterm for a Game Mod
 * hitScan push: 100000
 * Starting ammo increased
 
-#### Lightninggun.def
+#### Lightninggun
 * Removed lightning effects
 * Made it look like a mini gun by applying machine gun effects
 * Spread increased
 * Range decreased
 * Starting ammo increased
+
+#### Gauntlet
+* Added muzzle flash from machinegun
+* Wrote custom method to rotate blade to face forward direction so muzzle flash looks like a laser beam
+* Changed the angle at which the blade rotates
