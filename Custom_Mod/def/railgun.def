@@ -89,7 +89,7 @@ entityDef weapon_railgun
 	"numProjectiles"		"10"
 
 	"inv_weapon"				"weapon_railgun"
-	"inv_start_ammo_railgun"		"10"
+	"inv_start_ammo_railgun"		"350"
 	"inv_item"				"1"
 	"inv_icon"				"gfx/guis/hud/icons/item_railgun"
 	"inv_name"				"#str_107408"

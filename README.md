@@ -23,7 +23,7 @@ This readme details a custom zombies mod for Quake 4 as a midterm for a Game Mod
 ## Deliverables
 #### Unique
 * Monsters spawn in waves
-* Limit player to 2 weapons at a time
+* Limit player to 2 weapons at a time (UNSUCCESSFUL)
 * Point system, show total points after death, use points to buy perks/guns, show point changes with UI
 * Modify all weapons
 * Create 8 different perks

@@ -82,7 +82,7 @@ entityDef weapon_grenadelauncher
 	"dirOffset"					"0 0 .2"
 	
 	"inv_weapon"				"weapon_grenadelauncher"
-	"inv_start_ammo_grenadelauncher"	"10"
+	"inv_start_ammo_grenadelauncher"	"200"
 	"inv_item"					"1"
 	"inv_icon"					"gfx/guis/hud/icons/item_grenade.tga"
 	"inv_name"					"#str_107403"	

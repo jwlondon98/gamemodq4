@@ -76,7 +76,7 @@ entityDef weapon_lightninggun
 	"joint_hideGun_flash"		"waist"
 
 	"inv_weapon"						"weapon_lightninggun"
-	"inv_start_ammo_lightninggun"		"1000"
+	"inv_start_ammo_lightninggun"		"800"
 	"inv_item"							"1"
 	"inv_icon"							"gfx/guis/hud/icons/item_lightning.tga"
 	"inv_name"							"#str_107405"
