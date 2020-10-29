@@ -449,6 +449,107 @@ void idPlayer::BuyGun(const char* gun)
 	}
 }
 
+void idPlayer::CustomSetWeapon(const char * weaponName)
+{
+	idTypeInfo*	typeInfo;
+	int weaponNum = 0;
+	//spawnArgs.GetString(va("def_weapon%d", i))
+	if (strcmp(weaponName, "weapon_blaster"))
+		weaponNum = 0;
+	else if (strcmp(weaponName, "weapon_machinegun"))
+		weaponNum = 1;
+	else if (strcmp(weaponName, "weapon_shotgun"))
+		weaponNum = 2;
+	else if (strcmp(weaponName, "weapon_hyperblaster"))
+		weaponNum = 3;
+	else if (strcmp(weaponName, "weapon_grenadelauncher"))
+		weaponNum = 4;
+	else if (strcmp(weaponName, "weapon_nailgun"))
+		weaponNum = 5;
+	else if (strcmp(weaponName, "weapon_rocketlauncher"))
+		weaponNum = 6;
+	else if (strcmp(weaponName, "weapon_railgun"))
+		weaponNum = 7;
+	else if (strcmp(weaponName, "weapon_lightninggun"))
+		weaponNum = 8;
+	else if (strcmp(weaponName, "weapon_dmg"))
+		weaponNum = 9;
+	else if (strcmp(weaponName, "weapon_napalmgun"))
+		weaponNum = 10;
+	else if (strcmp(weaponName, "weapon_gauntlet"))
+		weaponNum = 11;
+
+	gameLocal.Printf("\nCUSTOMSETWEAPON found %s\n", weaponName);
+
+	weaponDef = GetWeaponDef(weaponNum);
+
+	if (!weaponDef) {
+		gameLocal.Error("Weapon definition not found for weapon");
+	}
+
+	typeInfo = idClass::GetClass(weaponDef->dict.GetString("weaponclass", "rvWeapon"));
+	inventory.secondaryWeapon = static_cast<rvWeapon*>(typeInfo->CreateInstance());
+	//inventory.secondaryWeapon->Init(this, weaponDef, currentWeapon, isStrogg);
+	//inventory.secondaryWeapon->CallSpawn();
+
+	inventory.secondaryWeaponNum = weaponNum;
+
+	SetWeapon(weaponNum);
+
+	gameLocal.Printf("\nCUSTOM SET WEAPON CALLED\n");
+}
+
+void idPlayer::CustomChangeWeapon(int slotNum)
+{
+	gameLocal.Printf("\nCUSTOMCHANGEWEAPON called\n");
+
+	rvWeapon * tempWeapon = NULL;
+	int tempNum = 0;
+
+	if (!inventory.secondaryWeapon)
+	{
+		gameLocal.Printf("\nCANNOT CHANGE WEAPON WITHOUT SECONDARY\n");
+		return;
+	}
+
+	if (!inventory.primaryIsActive)
+	{
+		gameLocal.Printf("\nINSIDE PRIMARY IS ACTIVE CHECK 1\n");
+
+		tempWeapon = inventory.primaryWeapon;
+		tempNum = inventory.primaryWeaponNum;
+
+		inventory.primaryWeapon = inventory.secondaryWeapon;
+		inventory.primaryWeaponNum = inventory.secondaryWeaponNum;
+
+		inventory.secondaryWeapon = tempWeapon;
+		inventory.secondaryWeaponNum = tempNum;
+
+		SetWeapon(inventory.primaryWeaponNum);
+
+		idealWeapon = inventory.primaryWeaponNum;
+		UpdateWeapon();
+	}
+	else
+	{
+		gameLocal.Printf("\nINSIDE PRIMARY IS ACTIVE CHECK 2\n");
+
+		tempWeapon = inventory.secondaryWeapon;
+		tempNum = inventory.secondaryWeaponNum;
+
+		inventory.secondaryWeapon = inventory.primaryWeapon;
+		inventory.secondaryWeaponNum = inventory.primaryWeaponNum;
+
+		inventory.primaryWeapon = tempWeapon;
+		inventory.primaryWeaponNum = tempNum;
+
+		SetWeapon(inventory.secondaryWeaponNum);
+
+		idealWeapon = inventory.secondaryWeaponNum;
+		UpdateWeapon();
+	}
+}
+
 /*
 ==============
 idInventory::Clear
@@ -1626,6 +1727,7 @@ idPlayer::SetWeapon
 ==============
 */
 void idPlayer::SetWeapon( int weaponIndex ) {
+	gameLocal.Printf("\nOLD SET WEAPON CALLED\n");
 	if ( weapon && weaponIndex == currentWeapon ) {
 		return;
 	}
@@ -1637,7 +1739,6 @@ void idPlayer::SetWeapon( int weaponIndex ) {
 	previousWeapon	= currentWeapon;
 	currentWeapon	= weaponIndex;
 	weaponGone		= false;		
-	gameLocal.Printf("set weapon");
 
 	if ( weaponIndex < 0 ) {
 		weaponGone = true;
@@ -2237,6 +2338,15 @@ void idPlayer::Spawn( void ) {
 // RAVEN BEGIN
 // mekberg: set to blaster now and disable the weapon.
 		idealWeapon = SlotForWeapon ( "weapon_blaster" ); 
+		if (weapon)
+		{
+			inventory.primaryWeapon = weapon;
+			inventory.primaryIsActive = true;
+			gameLocal.Printf("\nPRIMARY WEAPON SET TO BLASTER ON SPAWN\n");
+		}
+		else
+			gameLocal.Printf("\nPRIMARY WEAPON HAS NOT BEEN SET ON SPAWN\n");
+
 		Event_DisableWeapon( );
 // RAVEN END
 	} else {
@@ -4511,8 +4621,10 @@ bool idPlayer::GiveItem( idItem *item ) {
 			UpdateHudWeapon( );
 		} else {
 			//so weapon mods highlight the correct weapon when received
-			int weapon = SlotForWeapon(arg->GetValue());
-			UpdateHudWeapon( weapon );
+			//int weapon = SlotForWeapon(arg->GetValue());
+			gameLocal.Printf("\nGIVEITEM (line 4591) about to call CUSTOMSETWEAPON\n");
+			CustomSetWeapon(arg->GetValue());
+			//UpdateHudWeapon( weapon );
 		}
 		hud->HandleNamedEvent( "weaponPulse" );
 	}
@@ -8802,7 +8914,14 @@ void idPlayer::PerformImpulse( int impulse ) {
 
 
 	if ( impulse >= IMPULSE_0 && impulse <= IMPULSE_12 && !buyMenuOpened && !gunMenuOpened && !perkMenuOpened) {
-		SelectWeapon( impulse, false );
+		// CUSTOM SELECT WEAPON
+		if (impulse == IMPULSE_0)
+			CustomChangeWeapon(1);
+		else if (impulse == IMPULSE_1)
+			CustomChangeWeapon(2);
+
+		// OLD SELECT WEAPON
+		//SelectWeapon( impulse, false );
 		return;
 	}
 
@@ -11784,6 +11903,8 @@ idPlayer::Event_DisableWeapon
 ==================
 */
 void idPlayer::Event_DisableWeapon( void ) {
+	gameLocal.Printf("\nEvent_DisableWeapon\n");
+
  	hiddenWeapon = true;
 	weaponEnabled = false;
    	if ( weapon ) {
@@ -11798,6 +11919,8 @@ idPlayer::Event_GetCurrentWeapon
 ==================
 */
 void idPlayer::Event_GetCurrentWeapon( void ) {
+	gameLocal.Printf("\nEvent_GetCurrentWeapon\n");
+
 	if ( currentWeapon >= 0 ) {
 		idThread::ReturnString( spawnArgs.GetString( va( "def_weapon%d", currentWeapon ) ) );
 	} else {
@@ -11811,6 +11934,8 @@ idPlayer::Event_GetPreviousWeapon
 ==================
 */
 void idPlayer::Event_GetPreviousWeapon( void ) {
+	gameLocal.Printf("\nEvent_GetPreviousWeapon\n");
+
 	if ( previousWeapon >= 0 ) {
 		int pw = ( gameLocal.world->spawnArgs.GetBool( "no_Weapons" ) ) ? 0 : previousWeapon;
 		idThread::ReturnString( spawnArgs.GetString( va( "def_weapon%d", pw) ) );
@@ -11825,6 +11950,8 @@ idPlayer::Event_SelectWeapon
 ==================
 */
 void idPlayer::Event_SelectWeapon( const char *weaponName ) {
+	gameLocal.Printf("\nEvent_SelectWeapon\n");
+
 	int i;
 	int weaponNum;
 

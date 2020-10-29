@@ -194,6 +194,14 @@ const int	ASYNC_PLAYER_TOURNEY_STATUS_BITS = idMath::BitsForInteger( PTS_NUM_STA
 
 class idInventory {
 public:
+	rvWeapon * primaryWeapon;
+	rvWeapon * secondaryWeapon;
+
+	int primaryWeaponNum = 0;
+	int secondaryWeaponNum = 0;
+
+	bool primaryIsActive = true;
+
 	int						maxHealth;
 	int						weapons;
 // RITUAL BEGIN
@@ -283,13 +291,6 @@ public:
 
 	float maxJumpHeight = 40;
 	float flopperRadius = 300;
-
-	bool secondaryWeaponSet = false;
-	bool primaryWeaponActive = true;
-	bool secondaryWeaponActive = false;
-	int primaryWeapon = 0;
-	int secondaryWeapon = 0;
-
 
  	enum {
  		EVENT_IMPULSE = idEntity::EVENT_MAXEVENTS,
@@ -465,7 +466,8 @@ public:
 	void					CloseGunMenu();
 	void					BuyPerk(const char* perk);
 	void					BuyGun(const char* gun);
-	void					KillZombiesInArea(void);
+	void					CustomSetWeapon(const char * weaponName);
+	void					CustomChangeWeapon(int slotNumber);
 
 	void					Spawn( void );
 	void					Think( void );
