@@ -1,0 +1,12 @@
+windowDef Desktop
+{
+	rect	0,0,640,480
+	windowDef Points
+	{
+		rect	9,0,383,55
+		visible	1
+		forecolor	1,1,1,1
+		text	"Points: "
+		textscale	1
+	}
+}
